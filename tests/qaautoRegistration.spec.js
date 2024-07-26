@@ -9,17 +9,12 @@ test.describe('Sign up into Qaauto', () => {
   const signUpPwd = '#signupPassword';
   const signUpRepeatPwd = '#signupRepeatPassword';
   const registerBtn = '.modal-footer > .btn';
-  const userExistsAlert = '.alert';
-  const nameRequired ='body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(1) > div > p'
-  const invalidNameMsg = 'body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(1) > div > p'
-  const lastnameRequired = 'body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(2) > div > p'
-  const invalidLastNameMsg = 'body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(2) > div > p';
-  const emailRequired = 'body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(3) > div > p'
-  const invalidEmailMsg = 'body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(3) > div > p';
-  const passwordRequired = 'body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(4) > div > p'
-  const invalidPwdMsg = 'body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(4) > div > p';
-  const rptPwdRequired = 'body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(5) > div > p'
-  const invalidRptPwd = ':nth-child(5) > .invalid-feedback > p';
+  const nameRequired ='#signupName + .invalid-feedback > p'// было: 'body > ngb-modal-window > div > div > app-signup-modal > div.modal-body > app-signup-form > form > div:nth-child(1) > div > p'
+  const invalidNameMsg = '#signupName + .invalid-feedback > p'
+  const invalidLastNameMsg = '#signupLastName + .invalid-feedback > p'
+  const invalidEmailMsg = '#signupEmail + .invalid-feedback > p' 
+  const invalidPwdMsg = '#signupPassword + .invalid-feedback > p' 
+  const invalidRptPwd = '#signupRepeatPassword + .invalid-feedback > p' 
 
   const validUserData = {
     username: 'Neo',
@@ -58,70 +53,117 @@ test.describe('Sign up into Qaauto', () => {
     await page.locator(signUpPwd).fill(validUserData.password);
     await page.locator(signUpRepeatPwd).fill(validUserData.password);
     await page.locator(registerBtn).click();
-
-    await expect(page.locator(userExistsAlert)).not.toBeVisible();
+    await expect(page.locator('#userNavDropdown')).toBe().toHaveText('My profile');
   });
-
-  test('Verify Name validation', async ({ page }) => {
+  test.describe('Verify fields validation', () => {
+  test('Verify Name required', async ({ page }) => {
     await page.locator(signUpName).focus();
-    await page.locator(signUpLastName).focus();
+    await page.locator(signUpName).blur();
     await expect(page.locator(nameRequired)).toHaveText('Name required');
     await expect(page.locator(signUpName)).toHaveCSS('border-color', 'rgb(220, 53, 69)');
+    
+  });
+  test('Verify Name invalid', async ({ page }) => {
+    await page.locator(signUpName).focus();
     await page.locator(signUpName).fill(wrongUserData.username);
+    await page.locator(signUpName).blur();
     await expect(page.locator(invalidNameMsg)).toHaveText('Name is invalid');
+    await expect(page.locator(signUpName)).toHaveCSS('border-color', 'rgb(220, 53, 69)');
+    });
+  test('Verify Name length min', async ({ page }) => {
+    await page.locator(signUpName).focus();
     await page.locator(signUpName).fill(wrongLengthUserDataMin.username);
+    await page.locator(signUpLastName).focus();
     await expect(page.locator(invalidNameMsg)).toHaveText('Name has to be from 2 to 20 characters long');
+    await expect(page.locator(signUpName)).toHaveCSS('border-color', 'rgb(220, 53, 69)')
+  });
+  test('Verify Name length max', async ({ page }) => {
+    await page.locator(signUpName).focus();
     await page.locator(signUpName).fill(wrongLengthUserDataMax.username);
+    await page.locator(signUpLastName).focus();
     await expect(page.locator(invalidNameMsg)).toHaveText('Name has to be from 2 to 20 characters long');
+    await expect(page.locator(signUpName)).toHaveCSS('border-color', 'rgb(220, 53, 69)')
   });
 
-
- test('Verify Last Name', async ({ page }) => {
+  test('Verify Last Name requiered', async ({ page }) => {
     await page.locator(signUpLastName).focus();
     await page.locator(signUpEmail).focus();
     await expect(page.locator(lastnameRequired)).toHaveText('Last name required');
     await expect(page.locator(signUpLastName)).toHaveCSS('border-color', 'rgb(220, 53, 69)');
+  });
+  test('Verify Last Name invalid', async ({ page }) => {
+    await page.locator(signUpLastName).focus();
     await page.locator(signUpLastName).fill(wrongUserData.lastname);
+    await page.locator(signUpLastName).blur();
     await expect(page.locator(invalidLastNameMsg)).toHaveText('Last name is invalid');
+    await expect(page.locator(signUpLastName)).toHaveCSS('border-color', 'rgb(220, 53, 69)');
+    });
+  test('Verify Last Name min length', async ({ page }) => {
+    await page.locator(signUpLastName).focus();
     await page.locator(signUpLastName).fill(wrongLengthUserDataMin.lastname);
+    await page.locator(signUpEmail).focus();
     await expect(page.locator(invalidLastNameMsg)).toHaveText('Last name has to be from 2 to 20 characters long');
-    await page.locator(signUpLastName).fill(wrongLengthUserDataMax.lastname);
+  });
+  test('Verify Last Name max length', async ({ page }) => {
+    await page.locator(signUpLastName).focus();
+    await page.locator(signUpLastName).fill(wrongLengthUserDataMin.lastname);
+    await page.locator(signUpEmail).focus();
     await expect(page.locator(invalidLastNameMsg)).toHaveText('Last name has to be from 2 to 20 characters long');
   });
 
-  test('Verify Email validation', async ({ page }) => {
+  test('Verify Email required', async ({ page }) => {
     await page.locator(signUpEmail).focus();
     await page.locator(signUpEmail).fill('');
     await page.locator(signUpPwd).focus();
     await expect(page.locator(invalidEmailMsg)).toHaveText('Email required');
     await expect(page.locator(signUpEmail)).toHaveCSS('border-color', 'rgb(220, 53, 69)');
+  });
+  test('Verify Email incorrect', async ({ page }) => {
+    await page.locator(signUpEmail).focus();
+    await page.locator(signUpEmail).fill('');
+    await page.locator(signUpPwd).focus();
     await page.locator(signUpEmail).fill(wrongUserData.email);
     await expect(page.locator(invalidEmailMsg)).toHaveText('Email is incorrect');
+    await expect(page.locator(signUpEmail)).toHaveCSS('border-color', 'rgb(220, 53, 69)');
 
   });
 
-  test('Verify PWD validation', async ({ page }) => {
-    await page.locator(signUpPwd).focus();
+  test('Verify PWD required', async ({ page }) => {
+    await page.locator(signUpName).fill(validUserData.username);
+    await page.locator(signUpLastName).fill(validUserData.lastname);
+    await page.locator(signUpEmail).fill(validUserData.randomEmail);
     await page.locator(signUpPwd).fill('');
-    await page.locator(signUpEmail).focus();
+    await page.locator(signUpPwd).blur();
     await expect(page.locator(invalidPwdMsg)).toHaveText('Password required');
     await expect(page.locator(signUpPwd)).toHaveCSS('border-color', 'rgb(220, 53, 69)');
+  });
+  test('Verify PWD rules', async ({ page }) => {
+    await page.locator(signUpName).fill(validUserData.username);
+    await page.locator(signUpLastName).fill(validUserData.lastname);
+    await page.locator(signUpEmail).fill(validUserData.randomEmail);
     await page.locator(signUpPwd).fill(wrongUserData.password);
+    await page.locator(signUpPwd).blur();
     await expect(page.locator(invalidPwdMsg)).toHaveText('Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter');
     await expect(page.locator(registerBtn)).toBeDisabled();
-
+  });
+  test('Verify register BTN is disabled', async ({ page }) => {
+    await page.locator(signUpName).fill(validUserData.username);
+    await page.locator(signUpLastName).fill(validUserData.lastname);
+    await page.locator(signUpEmail).fill(validUserData.randomEmail);
+    await page.locator(signUpPwd).fill(validUserData.password);
+    await expect(page.locator(registerBtn)).toBeDisabled();
   });
    
-  test('Verify PWD validation', async ({ page }) => {  
-    await page.locator(signUpRepeatPwd).focus();
-    await page.locator(signUpRepeatPwd).fill('');
-    await page.locator(signUpEmail).focus();
-    await expect(page.locator(invalidRptPwd)).toHaveText('Re-enter password required');
+  test('Verify PWD-rpt validation', async ({ page }) => {  
+    await page.locator(signUpName).fill(validUserData.username);
+    await page.locator(signUpLastName).fill(validUserData.lastname);
+    await page.locator(signUpEmail).fill(validUserData.randomEmail);
     await page.locator(signUpPwd).fill(validUserData.password);
-    await page.locator(signUpRepeatPwd).fill(wrongUserData.rptPwd);
-
-  });
+    await page.locator(signUpRepeatPwd).fill('');
+    await page.locator(signUpPwd).focus();
+    await expect(page.locator(invalidRptPwd)).toHaveText('Re-enter password required');
+    });
   
 });
    
-
+})
