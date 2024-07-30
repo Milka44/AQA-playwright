@@ -2,24 +2,28 @@ import { test, expect } from '@playwright/test';
 import WelcomePage from '../src/pageObjects/welcomePage/WelcomePage.js';
 import RegistrationModal from '../src/pageObjects/welcomePage/components/RegistrationModal.js';
 import { userCredentials } from '../test-data/userCredentials.js';
+import GaragePage from '../src/pageObjects/garagePage/GaragePage.js';
 
 test.describe("POM: Registration tests", () => {
-  let welcomePage, registrationModal;
+  let welcomePage, registrationModal, garagePage;
 
   test.beforeEach(async ({ page }) => {
     welcomePage = new WelcomePage(page);
-    await welcomePage.navigate();
-    await welcomePage.clickSignUpBtn();
     registrationModal = new RegistrationModal(page);
+    
+    await welcomePage.navigate();
+    await welcomePage.goToSignUp();
+  
   });
-
+ 
   test('Verify registration is successful', async ({ page }) => {
+    garagePage = new GaragePage(page);
     await registrationModal.fill(userCredentials.validUserData);
     await registrationModal.register();
-    await expect(page.locator('#userNavDropdown')).toHaveText('My profile');
+    await expect(garagePage.myProfileDropDwn).toHaveText('My profile');
   });
 
-  test('Verify Name required', async ({ page }) => {
+   test('Verify Name required', async ({ page }) => {
     await registrationModal.signUpName.focus();
     await registrationModal.signUpName.blur();
     await expect(registrationModal.nameRequired).toHaveText('Name required');

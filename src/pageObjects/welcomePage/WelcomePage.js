@@ -1,22 +1,17 @@
+import { expect } from '@playwright/test'; 
 import BasePage from "../basePage/BasePage.js";
-import { expect } from '@playwright/test'; // Adjust the import based on your testing framework
+import RegistrationModal from "./components/RegistrationModal.js";
 
 export default class WelcomePage extends BasePage {
     constructor(page) {
-        super(page); // Call the parent class constructor
-        this._url = '/';
-        this._page = page;
-        this._waitPageSelector = '.hero-descriptor_btn';
-        this.signUpBtn = page.locator(this._waitPageSelector);
+        super(page); 
     }
 
-    async navigate() {
-        await this._page.goto(this._url);
-        await expect(this.signUpBtn).toBeVisible();
-    }
-
-    async clickSignUpBtn() {
-        await this.signUpBtn.click();
+ //return new RegistrationModal here
+    async goToSignUp() {
+     await this.signUpBtn.click();
+     return new RegistrationModal(this._page);
+       
     }
 }
 

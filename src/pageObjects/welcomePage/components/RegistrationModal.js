@@ -3,10 +3,11 @@ import BaseComponent from "../../../pageObjects/basePage/baseComponents/BaseComp
 
 export default class RegistrationModal extends BaseComponent {
     constructor(page) {
-        super(page, page.locator('.modal-content')); // Fixed the selector for the modal content
+        super(page, page.locator('.modal-content')); 
+        this.signUpBtn = page.locator('.hero-descriptor_btn')
         this.signUpName = this.container.locator('#signupName');
         this.signUpLastName = this.container.locator('#signupLastName');
-        this.signUpEmail = this.container.locator('#signupEmail'); // Fixed the ID to match
+        this.signUpEmail = this.container.locator('#signupEmail'); 
         this.signUpPwd = this.container.locator('#signupPassword');
         this.signUpRepeatPwd = this.container.locator('#signupRepeatPassword');
         this.registerBtn = this.container.locator('.modal-footer > .btn');
@@ -17,6 +18,7 @@ export default class RegistrationModal extends BaseComponent {
         this.invalidPwdMsg = this.container.locator('#signupPassword + .invalid-feedback > p');
         this.invalidRptPwd = this.container.locator('#signupRepeatPassword + .invalid-feedback > p');
     }
+
 
     async fill({ username, lastname, randomEmail, password }) {
         await this.signUpName.fill(username);
