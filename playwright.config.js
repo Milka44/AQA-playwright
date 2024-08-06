@@ -1,5 +1,6 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
+import dotenv from 'dotenv'
 
 /**
  * Read environment variables from file.
@@ -10,6 +11,11 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
+
+dotenv.config({
+  //path: './env/.env.stage'
+path: process.env.ENV === 'dev' ? './env/.env.dev' : './env/.env.stage'
+});
 const config = defineConfig({
   //testDir: './tests',
   testMatch: '/tests/**/*spec.js',
@@ -25,15 +31,14 @@ const config = defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    headless: false,
+use: {
+  headless: false,
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
-    baseURL: 'https://qauto.forstudy.space/',
-    httpCredentials: {
-      username: 'guest',
-      password: 'welcome2qauto'
-
+  baseURL: process.env.BASE_URL,
+  httpCredentials: {
+      username: process.env.HTTP_CREDENTIALS_USERNAME,
+      password: process.env.HTTP_CREDENTIALS_PASSWORD
     },
     viewport:{
       width: 1920,
