@@ -13,8 +13,8 @@ import dotenv from 'dotenv'
  */
 
 dotenv.config({
-  //path: './env/.env.stage'
-path: process.env.ENV === 'dev' ? './env/.env.dev' : './env/.env.stage'
+path: './env/.env.stage'
+//path: process.env.ENV === 'dev' ? './env/.env.dev' : './env/.env.stage'
 });
 const config = defineConfig({
   //testDir: './tests',

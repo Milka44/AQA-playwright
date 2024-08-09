@@ -6,8 +6,6 @@ export default class BaseComponent {
         this._page = page
         this.container = container ?? page.locator('html')
     }
-
-
     async waitLoaded(){
         await expect(this.container).toBeVisible()
     }
