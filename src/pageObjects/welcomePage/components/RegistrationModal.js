@@ -1,6 +1,4 @@
 import BaseComponent from "../../../pageObjects/basePage/baseComponents/BaseComponent.js"
-//import { userCredentials } from '../../../../test-data/userCredentials';
-
 export default class RegistrationModal extends BaseComponent {
     constructor(page) {
         super(page, page.locator('.modal-content')); 

@@ -7,6 +7,8 @@ export default class BasePage {
         this._page = page;
         this._waitPageSelector = '.hero-descriptor_btn';
         this.signUpBtn = page.locator(this._waitPageSelector);
+        this._signInSelector = '.btn.btn-outline-white.header_signin';
+        this.signInBtn = page.locator(this._signInSelector);
          }
 
     async navigate(){
