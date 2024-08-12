@@ -88,7 +88,7 @@ test.describe('Sign up into Qaauto', () => {
   test('Verify Last Name requiered', async ({ page }) => {
     await page.locator(signUpLastName).focus();
     await page.locator(signUpEmail).focus();
-    await expect(page.locator(lastnameRequired)).toHaveText('Last name required');
+    await expect(page.locator(invalidLastNameMsg)).toHaveText('Last name required');
     await expect(page.locator(signUpLastName)).toHaveCSS('border-color', 'rgb(220, 53, 69)');
   });
   test('Verify Last Name invalid', async ({ page }) => {
