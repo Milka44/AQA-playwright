@@ -1,6 +1,6 @@
-import { test, expect } from '../src/pageObjects/fixtures/userGaragePageFixture.js'; //кастомна фыкстура. дає нам логін в GaragePage
-import AddCarModal from "../src/pageObjects/garagePage/components/AddCarModal.js";
-import { carsForGarage } from '../test-data/carsForGarage.js';
+import { test, expect } from '../../src/pageObjects/fixtures/userGaragePageFixture.js'; //кастомна фыкстура. дає нам логін в GaragePage
+import AddCarModal from "../../src/pageObjects/garagePage/components/AddCarModal.js";
+import { carsForGarage } from '../../test-data/carsForGarage.js';
 
 test.describe('Garage', () => {
   let addCarModal;

@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import WelcomePage from '../src/pageObjects/welcomePage/WelcomePage.js';
-import RegistrationModal from '../src/pageObjects/welcomePage/components/RegistrationModal.js';
-import { userCredentials } from '../test-data/userCredentials.js';
-import GaragePage from '../src/pageObjects/garagePage/GaragePage.js';
+import WelcomePage from '../../src/pageObjects/welcomePage/WelcomePage.js';
+import RegistrationModal from '../../src/pageObjects/welcomePage/components/RegistrationModal.js';
+import { userCredentials } from '../../test-data/userCredentials.js';
+import GaragePage from '../../src/pageObjects/garagePage/GaragePage.js';
 
 test.describe("POM: Registration tests", () => {
   let welcomePage, registrationModal, garagePage;
