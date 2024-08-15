@@ -1,6 +1,4 @@
 import {test as base, expect as baseExpect, request as apiRequest} from "@playwright/test";
-
-//import {test as base, expect as baseExpect} from "@playwright/test";
 import GaragePage from '../garagePage/GaragePage.js' ;
 import {USER1_STORAGE_STATE_PATH} from "../../../test-data/constants.js";
 
