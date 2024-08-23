@@ -4,27 +4,50 @@ import { CARMODELS } from "../../../test-data/carModelsDictionary.js";
 import moment from "moment";
 import { faker } from '@faker-js/faker';
 
-test.describe("Modify car", ()=>{
-    const carBrand = CARBRANDS.BMW
-    const carModel = CARMODELS.BMW.X5
-    const modiFiedcarBrand = CARBRANDS.BMW
-    const modiFiedcarModel = CARMODELS.BMW.X6
-    
-    test(`Modify ${carBrand.title} and model ${carModel.title}`, async({carsController, newCar})=>{
-        console.log('createdCar:', newCar)
-        const modifiedCar = await carsController.modifyCar(newCar.id, {
-            "carBrandId": modiFiedcarBrand.id,
-            "carModelId": modiFiedcarModel.id,
-            "mileage": newCar.mileage + faker.number.int({min: 1, max: 10}),
+test.describe("Modify car", () => {
+    const modifiedCarBrand = CARBRANDS.BMW;
+    const modifiedCarModel = CARMODELS.BMW.X6;
+
+    test(`Should create car, modify car, check modified values and validate the response body schema`, async ({ carsController, newCar }) => {
+        console.log('Created Car:', newCar);
+
+        const modifiedCarMileage = newCar.mileage + faker.number.int({ min: 1, max: 10 });
+        const modifyCarRequest = {
+            "carBrandId": modifiedCarBrand.id,
+            "carModelId": modifiedCarModel.id,
+            "mileage": modifiedCarMileage,
             "carCreatedAt": moment().toISOString()
-           
-        })
-        const response = await modifiedCar.json()
-       
-        expect(response.status).toBe('ok')
-        expect(response.data.carBrandId).toBe(modiFiedcarBrand.id);
-        expect(response.data.carModelId).toBe(modiFiedcarModel.id);
-        expect(response.data.mileage).toBeGreaterThanOrEqual(newCar.mileage);
-        expect(moment(response.data.carCreatedAt).isValid(), "Date should be valid").toBeTruthy();
-    })
-})
+        };
+        const modifyCarResponse = await carsController.modifyCar(newCar.id, modifyCarRequest);
+        const responseBody = await modifyCarResponse.json();
+        const responseData = responseBody.data;
+
+        expect(modifyCarResponse.status(), "Response status should be 200").toBe(200);     
+        expect(responseData.id).toBe(newCar.id);
+        expect(responseData.carBrandId).toBe(modifiedCarBrand.id);
+        expect(responseData.carModelId).toBe(modifiedCarModel.id);
+        expect(responseData.mileage).toBe(modifiedCarMileage);
+        expect(responseData.brand).toBe(modifiedCarBrand.title);
+        expect(responseData.model).toBe(modifiedCarModel.title);
+        expect(responseData.logo).toBe(modifiedCarBrand.logoFilename);
+        expect(moment(responseData.carCreatedAt).isValid(), "Date should be valid").toBeTruthy();
+        expect(moment(responseData.updatedMileageAt).isValid(), "Updated mileage date should be valid").toBeTruthy();
+
+        
+        expect(responseBody).toEqual({
+            status: 'ok',
+            data: {
+                id: expect.any(Number),
+                carBrandId: expect.any(Number),
+                carModelId: expect.any(Number),
+                initialMileage: expect.any(Number),
+                updatedMileageAt: expect.any(String),
+                carCreatedAt: expect.any(String),
+                mileage: expect.any(Number),
+                brand: expect.any(String),
+                model: expect.any(String),
+                logo: expect.any(String)
+            }
+        });
+    });
+});

@@ -19,7 +19,7 @@ test.describe('Sign up into Qaauto', () => {
   const validUserData = {
     username: 'Neo',
     lastname: 'Neon',
-    randomEmail: `aqa-neotest${Math.floor(Math.random() * 1e6)}@gm.com`,
+    randomEmail: 'aqa-neotest8568@gm.com',//`aqa-neotest${Math.floor(Math.random() * 1e6)}@gm.com`,
     password: 'Neofortest222',
   };
 

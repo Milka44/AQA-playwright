@@ -1,4 +1,5 @@
 
+
 import { test as base, expect as baseExpect, request as apiRequest } from "@playwright/test";
 import GaragePage from '../garagePage/GaragePage.js';
 import { CARBRANDS } from "../../../test-data/carsBrandsDictionary.js";
@@ -10,27 +11,30 @@ import UserController from "../controllers/UserController.js";
 import { faker } from '@faker-js/faker';
 import { USERS } from "../../../test-data/users.js";
 import { getRandomElement } from "../../../utils/getRandomElement.js";
+
 export const test = base.extend({
-    context: async ({ browser }, use) => {
-        const context = await browser.newContext({
-            storageState: USER1_STORAGE_STATE_PATH
+    context: async ({ browser}, use) => { 
+        const context = await browser.newContext({ 
+        //storageState: USER1_STORAGE_STATE_PATH
         });
         await use(context);
         await context.close();
     },
+
     request: async ({}, use) => {
         const context = await apiRequest.newContext({
-            storageState: USER1_STORAGE_STATE_PATH
+        //storageState: USER1_STORAGE_STATE_PATH
         });
         await use(context);
         await context.dispose();
     },
+
     garagePage: async ({ page }, use) => {
         const garagePage = new GaragePage(page);
         use(garagePage);
     },
-    carsController: async ({ request }, use) => {
-        await use(new CarsController(request));
+    carsController: async ({  request }, use) => {
+        await use(new CarsController( request));
     },
     expensesController: async ({ request }, use) => {
         await use(new ExpensesController(request));
@@ -46,15 +50,16 @@ export const test = base.extend({
             "password": USERS.USER2.password,
             "repeatPassword": USERS.USER2.password
         };
-        const response = await userController.createNewUser(userData);
+        const response = await userController.createUser(userData);
         const user = await response.json();
         await use(user.data);
 
+        
         // delete user after the test
         await userController.deleteUser(user.data.id);
-    }, { auto: true }],
+    },{ auto: true }], //,{ auto: true }], //The auto: true option in Playwright’s fixture configuration allows a fixture to be automatically created and provided for any test that requests it.
 
-    newCar: async ({ carsController, newUser }, use) => {
+    newCar: async ({ carsController}, use) => {
         const carBrand = getRandomElement(Object.values(CARBRANDS)); 
         const carModelList = Object.values(CARMODELS[carBrand.title]); 
         const carModel = getRandomElement(carModelList);     
@@ -71,14 +76,4 @@ export const test = base.extend({
    
     }
 });
-//optional deletion
-// test.afterEach(async ({ request, newCar, newUser }) => {
-//     if (newCar && newCar.id) {
-//         await request.delete(`/api/cars/${newCar.id}`);
-//     }
-//     if (newUser && newUser.id) {
-//         await request.delete(`/api/users/${newUser.id}`);
-//     }
-// });
-
 export const expect = baseExpect;
