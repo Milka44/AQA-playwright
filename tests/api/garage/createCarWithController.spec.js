@@ -33,8 +33,7 @@ test.describe("Create a car", () => {
         expect(carData.logo).toBe(carBrand.logoFilename);
         expect(moment(carData.carCreatedAt).isValid(), "Date should be valid").toBeTruthy();
     
-        // Clean up by deleting the created car
-        await carsController.deleteCar(carData.id);
+ 
     });
 });
 

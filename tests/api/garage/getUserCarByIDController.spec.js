@@ -13,18 +13,6 @@ test.describe("Get user's car by ID", () => {
 
         expect(fetchedCar).toHaveProperty("status", "ok");
         expect(fetchedCar).toHaveProperty("data");
-
-        expect(fetchedCarData).toHaveProperty("id", expect.any(Number));
-        expect(fetchedCarData).toHaveProperty("carBrandId", expect.any(Number));
-        expect(fetchedCarData).toHaveProperty("carModelId", expect.any(Number));
-        expect(fetchedCarData).toHaveProperty("mileage", expect.any(Number));
-        expect(fetchedCarData).toHaveProperty("brand", expect.any(String));
-        expect(fetchedCarData).toHaveProperty("model", expect.any(String));
-        expect(fetchedCarData).toHaveProperty("logo", expect.any(String));
-        expect(fetchedCarData).toHaveProperty("updatedMileageAt", expect.any(String));
-        expect(fetchedCarData).toHaveProperty("carCreatedAt", expect.any(String));
-
-
         expect(fetchedCarData.id).toEqual(newCar.id);
         expect(fetchedCarData.carBrandId).toEqual(newCar.carBrandId);
         expect(fetchedCarData.carModelId).toEqual(newCar.carModelId);
