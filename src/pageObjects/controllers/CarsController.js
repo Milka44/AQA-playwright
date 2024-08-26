@@ -22,14 +22,9 @@ async getCars(){
     return this._request.get(this.#GET_CARS_PATH)
     
 }
-async createCar(requestBody) {
-    const baseURL = process.env.BASE_URL || this._request.baseURL; // Fallback to process.env.BASE_URL if _request.baseURL is undefined
-    console.log(`Request URL: ${baseURL}/${this.#CREATE_CAR_PATH}`);
-    
-    return this._request.post(this.#CREATE_CAR_PATH, {
-        data: requestBody
-    });
-}
+async createCar(requestBody){
+    return this._request.post(this.#CREATE_CAR_PATH, {data:requestBody})
+   }
 
 //GET ALL CAR BRANDS
 async getALLCarBrands(){

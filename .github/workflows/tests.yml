@@ -21,8 +21,8 @@ jobs:
       - name: "Run tests"
         env:
           ENV: 'stage'
-          HTTP_CREDENTIALS_USERNAME: ${{ secrets.HTTP_CREDENTIALS_USERNAME }}
-          HTTP_CREDENTIALS_PASSWORD: ${{ secrets.HTTP_CREDENTIALS_PASSWORD }}
+          HTTP_CREDENTIALS_USERNAME: guest
+          HTTP_CREDENTIALS_PASSWORD: welcome2qauto
         run: npm run test
       - name: "Upload report to artifacts"
         if: always()
