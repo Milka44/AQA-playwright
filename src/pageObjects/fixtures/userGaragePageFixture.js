@@ -24,7 +24,7 @@ export const test = base.extend({
 
     request: async ({}, use) => {
         const context = await apiRequest.newContext({
-            
+        baseURL: process.env.BASE_URL,              
         //storageState: USER1_STORAGE_STATE_PATH
         });
         await use(context);
