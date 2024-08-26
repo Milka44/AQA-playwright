@@ -25,7 +25,7 @@ jobs:
           HTTP_CREDENTIALS_PASSWORD: ${{ secrets.HTTP_CREDENTIALS_PASSWORD }}
         run: npm run test
       - name: "Upload report to artifacts"
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ci-report
