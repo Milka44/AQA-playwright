@@ -1,6 +1,7 @@
 
 export default class CarsController {
     
+    
     #GET_CARS_PATH ='api/cars'
     #CREATE_CAR_PATH ='api/cars'
     #GET_CARS_BRANDS_PATH ='api/cars/brands'
@@ -17,11 +18,13 @@ export default class CarsController {
 //GET ALL USER'S CARS
 async getCars(){
     console.log("Get all user's cars")
+    
     return this._request.get(this.#GET_CARS_PATH)
     
 }
 async createCar(requestBody){
-    return this._request.post(this.#CREATE_CAR_PATH, {data:requestBody})}
+    return this._request.post(this.#CREATE_CAR_PATH, {data:requestBody})
+   }
 
 //GET ALL CAR BRANDS
 async getALLCarBrands(){

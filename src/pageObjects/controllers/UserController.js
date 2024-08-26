@@ -1,8 +1,8 @@
 export default class UserController {
     
-    #REGISTER_USER_PATH ='api/auth/signup'
-    #LOGIN_USER_PATH ='api/auth/signin'
-    #DELETE_USER_PATH = 'api/users'
+    #REGISTER_USER_PATH ='./api/auth/signup'
+    #LOGIN_USER_PATH ='./api/auth/signin'
+    #DELETE_USER_PATH = './api/users'
    
 
     constructor(request){

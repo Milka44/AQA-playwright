@@ -4,7 +4,7 @@ import { test as base, expect as baseExpect, request as apiRequest } from "@play
 import GaragePage from '../garagePage/GaragePage.js';
 import { CARBRANDS } from "../../../test-data/carsBrandsDictionary.js";
 import { CARMODELS } from "../../../test-data/carModelsDictionary.js";
-import { USER1_STORAGE_STATE_PATH } from "../../../test-data/constants.js";
+//import { USER1_STORAGE_STATE_PATH } from "../../../test-data/constants.js";
 import CarsController from "../controllers/CarsController.js";
 import ExpensesController from "../controllers/ExpensesController.js";
 import UserController from "../controllers/UserController.js";
@@ -15,6 +15,7 @@ import { getRandomElement } from "../../../utils/getRandomElement.js";
 export const test = base.extend({
     context: async ({ browser}, use) => { 
         const context = await browser.newContext({ 
+        baseURL: process.env.BASE_URL,    //??
         //storageState: USER1_STORAGE_STATE_PATH
         });
         await use(context);
@@ -23,6 +24,7 @@ export const test = base.extend({
 
     request: async ({}, use) => {
         const context = await apiRequest.newContext({
+        baseURL: process.env.BASE_URL,              
         //storageState: USER1_STORAGE_STATE_PATH
         });
         await use(context);
